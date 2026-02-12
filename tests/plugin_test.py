@@ -7,7 +7,7 @@ from fake import fake_group_message_event_v11
 @pytest.mark.asyncio
 async def test_plugin_metadata(app: App):
     """测试插件元数据加载是否正常"""
-    from nonebot_plugin_template import __plugin_meta__
+    from nonebot_plugin_auto_emojimix import __plugin_meta__
 
     assert __plugin_meta__.name == "名称"
     assert __plugin_meta__.description == "描述"
