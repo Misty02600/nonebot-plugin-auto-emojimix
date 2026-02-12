@@ -1,0 +1,11 @@
+# 白名单：允许同步的文件/目录（:! 表示取消忽略，即允许同步）
+:!.github/**
+:!.pre-commit-config.yaml
+:!justfile
+:!.gitignore
+:!cliff.toml
+
+# 其余全部不同步
+*
+.github/workflows/initialize.yml
+
