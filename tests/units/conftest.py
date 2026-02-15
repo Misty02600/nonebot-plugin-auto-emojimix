@@ -36,10 +36,10 @@ _mock_nonebot_log = MagicMock()
 _mock_nonebot_log.logger = _mock_logger
 
 _mock_config_module = MagicMock()
-_mock_config_module.emoji_config = MagicMock()
-_mock_config_module.emoji_config.http_proxy = None
 _mock_config_module.plugin_config = MagicMock()
+_mock_config_module.plugin_config.emojimix = True
 _mock_config_module.plugin_config.auto_emojimix = True
+_mock_config_module.plugin_config.emojimix_cd = 5
 
 sys.modules.setdefault("nonebot", MagicMock())
 sys.modules.setdefault("nonebot.log", _mock_nonebot_log)

@@ -7,7 +7,7 @@ nonebot-plugin-auto-emojimix
 from nonebot.plugin import PluginMetadata
 
 from . import handler as handler
-from .config import PuginConfig
+from .config import Config
 
 __plugin_meta__ = PluginMetadata(
     name="emoji合成",
@@ -15,7 +15,7 @@ __plugin_meta__ = PluginMetadata(
     usage="{emoji1}+{emoji2}，如：😎+😁",
     type="application",
     homepage="https://github.com/Misty02600/nonebot-plugin-auto-emojimix",
-    config=PuginConfig,
+    config=Config,
     supported_adapters={"~onebot.v11"},
     extra={
         "example": "😎+😁",

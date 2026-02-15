@@ -170,9 +170,9 @@ class EmojiMixService:
                 raise ComboNotFoundError
         except ComboNotFoundError:
             raise
-        except Exception:
+        except Exception as e:
             logger.warning(traceback.format_exc())
-            raise DownloadError
+            raise DownloadError from e
 
 
 # 全局单例

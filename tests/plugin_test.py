@@ -46,7 +46,9 @@ async def test_config_loaded(app: App):
     from nonebot_plugin_auto_emojimix.config import plugin_config
 
     assert plugin_config is not None
+    assert plugin_config.emojimix is True
     assert plugin_config.auto_emojimix is True
+    assert plugin_config.emojimix_cd == 5
 
 
 @pytest.mark.asyncio

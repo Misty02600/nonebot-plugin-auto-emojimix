@@ -7,8 +7,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-
-# ==================== 数据加载测试 ====================
+# 数据加载测试
 
 
 class TestDataLoading:
@@ -50,7 +49,7 @@ class TestDataLoading:
         assert count > 0
 
 
-# ==================== 编码转换测试 ====================
+# 编码转换测试
 
 
 class TestCharToCode:
@@ -83,7 +82,7 @@ class TestCharToCode:
             svc._char_to_code("")
 
 
-# ==================== 支持码点测试 ====================
+# 支持码点测试
 
 
 class TestSupportedCodepoints:
@@ -110,7 +109,7 @@ class TestSupportedCodepoints:
         assert 0x2615 in codepoints  # ☕
 
 
-# ==================== 组合 URL 测试 ====================
+# 组合 URL 测试
 
 
 class TestGetComboUrl:
@@ -160,7 +159,7 @@ class TestGetComboUrl:
         assert "/u2615/" in url
 
 
-# ==================== mix_emoji 异步测试 ====================
+# mix_emoji 异步测试
 
 
 class TestMixEmoji:
