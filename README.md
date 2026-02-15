@@ -17,7 +17,7 @@
 
 更好的emoji合成，长期跟踪上游数据源。支持两种触发方式：
 - **显式模式**：发送 `emoji+emoji`（如 `😂+🥺`）触发合成
-- **自动模式**：发送两个相邻的 emoji（如 `😂🥺`）自动检测并合成（需配置开启）
+- **自动模式**：消息内包含两个相邻的 emoji（如 `😂🥺`）自动检测并合成（需配置开启）
 
 数据来源：[xsalazar/emoji-kitchen-backend](https://github.com/xsalazar/emoji-kitchen-backend)，包含 **14 万+** 种 emoji 组合。
 
@@ -101,11 +101,11 @@
 | `emojimix_cd`       |  否   |  `60`  | 每个用户的冷却时间（秒），设为 0 则不限制   |
 
 ```dotenv
-# 启用显式合成（默认 True）
+# 启用显式合成
 emojimix_explicit=true
-# 启用自动合成（默认 True）
+# 启用自动合成
 emojimix_auto=true
-# 设置冷却时间为 3 秒（默认 60，设为 0 关闭）
+# 设置冷却时间
 emojimix_cd=3
 ```
 
