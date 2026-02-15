@@ -38,7 +38,7 @@ async def _check_cooldown(event: MessageEvent) -> bool:
 
 async def _check_explicit(state: T_State, text: str = EventPlainText()) -> bool:
     """显式模式匹配：emoji1+emoji2。"""
-    if not plugin_config.emojimix:
+    if not plugin_config.emojimix_explicit:
         return False
     text = text.strip()
     if not text or "+" not in text:
@@ -52,7 +52,7 @@ async def _check_explicit(state: T_State, text: str = EventPlainText()) -> bool:
 
 async def _check_auto(state: T_State, text: str = EventPlainText()) -> bool:
     """自动模式匹配：两个相邻 emoji。"""
-    if not plugin_config.auto_emojimix:
+    if not plugin_config.emojimix_auto:
         return False
     text = text.strip()
     if not text or "+" in text:

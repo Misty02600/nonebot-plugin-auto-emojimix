@@ -3,10 +3,10 @@ from pydantic import BaseModel, Field
 
 
 class Config(BaseModel):
-    emojimix: bool = Field(
+    emojimix_explicit: bool = Field(
         default=True, description="是否启用显式表情合成（如 😂+🥺）。"
     )
-    auto_emojimix: bool = Field(
+    emojimix_auto: bool = Field(
         default=True,
         description="是否自动触发表情合成。启用后，用户发送的纯文本中包含两个相邻的可合成 emoji 时，会自动发送合成图片。",
     )
