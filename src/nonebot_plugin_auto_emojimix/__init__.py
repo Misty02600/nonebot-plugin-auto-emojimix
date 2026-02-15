@@ -1,22 +1,23 @@
-# from nonebot import logger, require
-from nonebot.plugin import PluginMetadata  # , inherit_supported_adapters
+"""
+nonebot-plugin-auto-emojimix
 
-# require("nonebot_plugin_uninfo")
-# require("nonebot_plugin_alconna")
-# require("nonebot_plugin_localstore")
-# require("nonebot_plugin_apscheduler")
-from .config import Config
+将两个emoji合成为一张图片
+"""
+
+from nonebot.plugin import PluginMetadata
+
+from . import handler as handler
+from .config import PuginConfig
 
 __plugin_meta__ = PluginMetadata(
-    name="名称",
-    description="描述",
-    usage="用法",
-    type="application",  # application: 功能性插件 | library: 库插件
+    name="emoji合成",
+    description="将两个emoji合成为一张图片",
+    usage="{emoji1}+{emoji2}，如：😎+😁",
+    type="application",
     homepage="https://github.com/Misty02600/nonebot-plugin-auto-emojimix",
-    config=Config,
-    # supported_adapters=inherit_supported_adapters(
-    #     "nonebot_plugin_alconna", "nonebot_plugin_uninfo"
-    # ),
+    config=PuginConfig,
     supported_adapters={"~onebot.v11"},
-    extra={"author": "Misty02600 <your@mail.com>"},
+    extra={
+        "example": "😎+😁",
+    },
 )

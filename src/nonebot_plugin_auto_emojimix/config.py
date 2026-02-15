@@ -1,14 +1,10 @@
-from nonebot import get_driver, get_plugin_config
+from nonebot import get_plugin_config
 from pydantic import BaseModel
 
 
 class Config(BaseModel):
-    pass
+    auto_emojimix: bool = True
+    """是否自动触发表情合成。启用后，用户发送的纯文本中包含两个相邻的可合成 emoji 时，会自动发送合成图片。"""
 
 
-# 配置加载
-plugin_config: Config = get_plugin_config(Config)
-global_config = get_driver().config
-
-# 全局名称
-NICKNAME: str = next(iter(global_config.nickname), "")
+plugin_config = get_plugin_config(Config)

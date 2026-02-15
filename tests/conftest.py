@@ -1,15 +1,11 @@
 import os
-from pathlib import Path
 
 import nonebot
 import pytest
 from nonebot.adapters.onebot.v11 import Adapter as OnebotV11Adapter
 from pytest_asyncio import is_async_test
 
-if Path(".env.dev").exists():
-    os.environ["ENVIRONMENT"] = "dev"
-else:
-    os.environ["ENVIRONMENT"] = "test"
+os.environ["ENVIRONMENT"] = "test"
 
 
 def pytest_collection_modifyitems(items: list[pytest.Item]):

@@ -1,63 +1,70 @@
-from typing import TYPE_CHECKING, Literal
+"""虚拟事件工厂
+
+用于测试的虚拟 OneBot V11 消息事件。
+"""
+
+from time import time
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from nonebot.adapters.onebot.v11 import GroupMessageEvent as GroupMessageEventV11
-    from nonebot.adapters.onebot.v11 import (
-        PrivateMessageEvent as PrivateMessageEventV11,
-    )
+    from nonebot.adapters.onebot.v11 import GroupMessageEvent, PrivateMessageEvent
 
 
-def fake_group_message_event_v11(**field) -> "GroupMessageEventV11":
-    import random
-
+def make_group_message_event(**field) -> "GroupMessageEvent":
+    """创建虚拟群消息事件"""
     from nonebot.adapters.onebot.v11 import GroupMessageEvent, Message
-    from nonebot.adapters.onebot.v11.event import Reply, Sender
-    from pydantic import create_model
+    from nonebot.adapters.onebot.v11.event import Sender
 
-    _Fake = create_model("_Fake", __base__=GroupMessageEvent)
+    defaults = {
+        "time": int(time()),
+        "self_id": 123456,
+        "post_type": "message",
+        "sub_type": "normal",
+        "user_id": 12345678,
+        "message_type": "group",
+        "group_id": 87654321,
+        "message_id": 1,
+        "message": Message("test"),
+        "raw_message": "test",
+        "original_message": Message("test"),
+        "font": 0,
+        "sender": Sender(card="", nickname="test", role="member"),
+    }
+    defaults.update(field)
 
-    class FakeEvent(_Fake):
-        time: int = 1000000
-        self_id: int = 1
-        post_type: Literal["message"] = "message"
-        sub_type: str = "normal"
-        user_id: int = 12345678
-        message_type: Literal["group"] = "group"
-        group_id: int = 87654321
-        message_id: int = random.randint(1, 10000000)
-        message: Message = Message("test")
-        raw_message: str = "test"
-        font: int = 0
-        sender: Sender = Sender(
-            card="",
-            nickname="test",
-            role="member",
-        )
-        to_me: bool = False
-        reply: Reply | None = None
+    # 确保 original_message 与 message 同步
+    if "message" in field and "original_message" not in field:
+        defaults["original_message"] = field["message"]
+    if "message" in field and "raw_message" not in field:
+        defaults["raw_message"] = field["message"].extract_plain_text()
 
-    return FakeEvent(**field)
+    return GroupMessageEvent(**defaults)
 
 
-def fake_private_message_event_v11(**field) -> "PrivateMessageEventV11":
+def make_private_message_event(**field) -> "PrivateMessageEvent":
+    """创建虚拟私聊消息事件"""
     from nonebot.adapters.onebot.v11 import Message, PrivateMessageEvent
     from nonebot.adapters.onebot.v11.event import Sender
-    from pydantic import create_model
 
-    _Fake = create_model("_Fake", __base__=PrivateMessageEvent)
+    defaults = {
+        "time": int(time()),
+        "self_id": 123456,
+        "post_type": "message",
+        "sub_type": "friend",
+        "user_id": 12345678,
+        "message_type": "private",
+        "message_id": 1,
+        "message": Message("test"),
+        "raw_message": "test",
+        "original_message": Message("test"),
+        "font": 0,
+        "sender": Sender(nickname="test"),
+    }
+    defaults.update(field)
 
-    class FakeEvent(_Fake):
-        time: int = 1000000
-        self_id: int = 1
-        post_type: Literal["message"] = "message"
-        sub_type: str = "friend"
-        user_id: int = 10
-        message_type: Literal["private"] = "private"
-        message_id: int = 1
-        message: Message = Message("test")
-        raw_message: str = "test"
-        font: int = 0
-        sender: Sender = Sender(nickname="test")
-        to_me: bool = False
+    if "message" in field and "original_message" not in field:
+        defaults["original_message"] = field["message"]
+    if "message" in field and "raw_message" not in field:
+        defaults["raw_message"] = field["message"].extract_plain_text()
 
-    return FakeEvent(**field)
+    return PrivateMessageEvent(**defaults)

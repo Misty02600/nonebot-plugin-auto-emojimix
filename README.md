@@ -4,7 +4,7 @@
 
 ## ✨ nonebot-plugin-auto-emojimix ✨
 [![LICENSE](https://img.shields.io/github/license/Misty02600/nonebot-plugin-auto-emojimix.svg)](./LICENSE)
-[![python](https://img.shields.io/badge/python-3.10+-blue.svg?logo=python&logoColor=white)](https://www.python.org)
+[![python](https://img.shields.io/badge/python-3.11+-blue.svg?logo=python&logoColor=white)](https://www.python.org)
 [![Adapters](https://img.shields.io/badge/Adapters-OneBot%20v11-blue)](#supported-adapters)
 <br/>
 
@@ -15,7 +15,11 @@
 
 ## 📖 介绍
 
-这里是插件的详细介绍部分
+更好的emoji合成，支持两种触发方式：
+- **显式模式**：发送 `emoji+emoji`（如 `😂+🥺`）触发合成
+- **自动模式**：发送两个相邻的 emoji（如 `😂🥺`）自动检测并合成（需配置开启）
+
+数据来源：[xsalazar/emoji-kitchen-backend](https://github.com/xsalazar/emoji-kitchen-backend)，包含 **14 万+** 种 emoji 组合。
 
 ## 💿 安装
 
@@ -88,21 +92,33 @@
 
 ## ⚙️ 配置
 
-插件使用[nonebot_plugin_localstore](https://github.com/nonebot/plugin-localstore)储存数据和缓存。
+在 nonebot2 项目的 `.env` 文件中添加以下配置：
 
-在 nonebot2 项目的`.env`文件中添加下表中的必填配置
-
-| 配置项  | 必填  | 默认值 |   说明   |
-| :-----: | :---: | :----: | :------: |
-| 配置项1 |  是   |   无   | 配置说明 |
-| 配置项2 |  否   |   无   | 配置说明 |
+| 配置项          | 必填  | 默认值 | 说明                                        |
+| :-------------- | :---: | :----: | :------------------------------------------ |
+| `auto_emojimix` |  否   | `True` | 是否启用自动模式（检测相邻 emoji 自动合成） |
 
 ## 🎉 使用
-### 指令表
-| 指令  | 权限  | 需要@ | 范围  |   说明   |
-| :---: | :---: | :---: | :---: | :------: |
-| 指令1 | 主人  |  否   | 私聊  | 指令说明 |
-| 指令2 | 群员  |  是   | 群聊  | 指令说明 |
 
-### 🎨 效果图
-如果有效果图的话
+### 指令表
+
+| 指令          | 权限  | 需要@ |   范围    | 说明                              |
+| :------------ | :---: | :---: | :-------: | :-------------------------------- |
+| `emoji+emoji` | 所有  |  否   | 私聊/群聊 | 显式合成两个 emoji                |
+| *(自动检测)*  | 所有  |  否   | 私聊/群聊 | 消息中包含两个相邻 emoji 自动合成 |
+
+### 示例
+
+- 发送 `😂+🥺` → 返回合成图片
+- 发送 `☕+☕` → 返回合成图片
+- 开启 `auto_emojimix=true` 后，发送 `😂🥺` → 自动返回合成图片
+
+### 更新数据
+
+如果需要更新 emoji 组合数据（跟踪上游新增组合），可运行：
+
+```bash
+uv run python scripts/update_emoji_data.py
+```
+
+脚本会自动检查上游是否有更新，有则下载并重新生成本地数据库。
