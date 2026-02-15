@@ -10,14 +10,11 @@ from . import handler as handler
 from .config import Config
 
 __plugin_meta__ = PluginMetadata(
-    name="emoji合成",
-    description="将两个emoji合成为一张图片",
+    name="自动合成emoji",
+    description="更好的emoji合成，包含自动触发合成，长期更新数据",
     usage="{emoji1}+{emoji2}，如：😎+😁",
     type="application",
     homepage="https://github.com/Misty02600/nonebot-plugin-auto-emojimix",
     config=Config,
     supported_adapters={"~onebot.v11"},
-    extra={
-        "example": "😎+😁",
-    },
 )
