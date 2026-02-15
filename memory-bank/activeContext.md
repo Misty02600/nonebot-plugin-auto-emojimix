@@ -21,6 +21,9 @@
   - 删除 emojimix_data_compact.json，新增 emojimix.db (7.55MB)
   - update_emoji_data.py 重写为直接输出 .db 文件
   - 27 个测试全部通过
+- 2026-02-15: 修复集成测试 `tests/plugin_test.py` 中的元数据断言错误和配置加载问题
+  - 更新 `test_plugin_metadata` 以匹配 `__init__.py` 中的插件名为 "自动合成emoji"
+  - 更新 `.env.test` 显式设置 `emojimix_cd=60` 以避免受本地 `.env` 影响
 
 ## 近期讨论要点
 - **数据规模实测**: `_emoji_map` 613 条，combos 表 143,274 条

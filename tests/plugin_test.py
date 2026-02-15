@@ -13,8 +13,10 @@ async def test_plugin_metadata(app: App):
 
     from nonebot_plugin_auto_emojimix import __plugin_meta__
 
-    assert __plugin_meta__.name == "emoji合成"
-    assert __plugin_meta__.description == "将两个emoji合成为一张图片"
+    assert __plugin_meta__.name == "自动合成emoji"
+    assert (
+        __plugin_meta__.description == "更好的emoji合成，包含自动触发合成，长期更新数据"
+    )
     assert __plugin_meta__.type == "application"
     assert __plugin_meta__.supported_adapters is not None
     assert "~onebot.v11" in __plugin_meta__.supported_adapters
