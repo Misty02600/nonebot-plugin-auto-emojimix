@@ -94,8 +94,9 @@ asyncio_mode = "auto" # 自动检测异步测试函数，无需手动标记 @pyt
 asyncio_default_fixture_loop_scope = "session" # 每个测试函数使用独立的事件循环
 
 [tool.ruff]
-line-length = 88       # 每行最大字符数（与 Black 保持一致）
-src = ["src", "tests"] # 源代码目录（用于判断导入是本地模块还是第三方模块）
+line-length = 88             # 每行最大字符数（与 Black 保持一致）
+src = ["src", "tests"]       # 源代码目录（用于判断导入是本地模块还是第三方模块）
+extend-exclude = ["scripts"] # 脚本目录不做 lint 检查
 
 [tool.ruff.format]
 line-ending = "lf" # 行尾符：lf（Unix）| crlf（Windows）| auto | native
