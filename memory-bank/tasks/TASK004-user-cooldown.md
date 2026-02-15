@@ -41,4 +41,11 @@
 - 创建任务，确定实现方案
 - 完成全部实施：依赖、配置、冷却逻辑、测试、文档
 - 根据用户反馈将冷却检查从 handler 移到 Rule 函数中
-- ruff / basedpyright / pytest 全部通过
+### 2026-02-15 (Refactoring)
+- **Rule Composition**: 将 handler 逻辑重构为 pure Rule checker (`_check_explicit`, `_check_auto`) 和 read-only cooldown checker (`_check_cooldown`) 组合，确保冷却逻辑不会产生副作用。
+- **Config Renaming**: 为了配置项语义统一，重命名了配置字段：
+  - `emojimix` -> `emojimix_explicit`
+  - `auto_emojimix` -> `emojimix_auto`
+  - `emojimix_cd` (保持不变)
+- **CI Fixes**: 修复 CI 对 `scripts/` 目录的 ruff 检查报错，通过 `pyproject.toml` 排除非源码目录。
+- **Doc Updates**: 更新 README 配置表及 `.env` 示例。

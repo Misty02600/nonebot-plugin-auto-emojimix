@@ -48,7 +48,7 @@ async def test_config_loaded(app: App):
     assert plugin_config is not None
     assert plugin_config.emojimix_explicit is True
     assert plugin_config.emojimix_auto is True
-    assert plugin_config.emojimix_cd == 5
+    assert plugin_config.emojimix_cd == 60
 
 
 @pytest.mark.asyncio

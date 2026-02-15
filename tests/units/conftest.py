@@ -39,7 +39,7 @@ _mock_config_module = MagicMock()
 _mock_config_module.plugin_config = MagicMock()
 _mock_config_module.plugin_config.emojimix_explicit = True
 _mock_config_module.plugin_config.emojimix_auto = True
-_mock_config_module.plugin_config.emojimix_cd = 5
+_mock_config_module.plugin_config.emojimix_cd = 60
 
 sys.modules.setdefault("nonebot", MagicMock())
 sys.modules.setdefault("nonebot.log", _mock_nonebot_log)

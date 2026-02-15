@@ -98,7 +98,16 @@
 | :------------------ | :---: | :----: | :------------------------------------------ |
 | `emojimix_explicit` |  否   | `True` | 是否启用显式合成                            |
 | `emojimix_auto`     |  否   | `True` | 是否启用自动模式（检测相邻 emoji 自动合成） |
-| `emojimix_cd`       |  否   |  `5`   | 每个用户的冷却时间（秒），设为 0 则不限制   |
+| `emojimix_cd`       |  否   |  `60`  | 每个用户的冷却时间（秒），设为 0 则不限制   |
+
+```dotenv
+# 启用显式合成（默认 True）
+emojimix_explicit=true
+# 启用自动合成（默认 True）
+emojimix_auto=true
+# 设置冷却时间为 3 秒（默认 60，设为 0 关闭）
+emojimix_cd=3
+```
 
 ## 🎉 使用
 
