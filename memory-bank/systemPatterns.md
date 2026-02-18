@@ -33,16 +33,16 @@
 用户消息 → NoneBot2 事件系统 → on_message 匹配器
     → check_emojis (正则检查) → handle_emojimix
     → EmojiMixService.mix_emoji() → 返回图片/错误信息
-    → MessageSegment.image() 发送图片
+    → UniMessage.image() 跨平台发送图片
 ```
 
 ## 源码分层（与 peek/jmdownloader 一致）
-| 文件          | 职责                                             |
-| ------------- | ------------------------------------------------ |
-| `__init__.py` | 元数据声明 + `from . import handler`（注册命令） |
-| `handler.py`  | 消息匹配（正则构建、check_emojis）+ 处理函数     |
-| `service.py`  | 核心业务逻辑（EmojiMixService 单例）             |
-| `config.py`   | Pydantic 配置模型（http_proxy, auto_emojimix）   |
+| 文件          | 职责                                                                  |
+| ------------- | --------------------------------------------------------------------- |
+| `__init__.py` | require(alconna) + 元数据声明 + `from . import handler`（注册命令）   |
+| `handler.py`  | 消息匹配（正则构建、check_emojis）+ 处理函数（UniMessage 跨平台发送） |
+| `service.py`  | 核心业务逻辑（EmojiMixService 单例）                                  |
+| `config.py`   | Pydantic 配置模型（emojimix_explicit, emojimix_auto, emojimix_cd）    |
 
 ---
 
@@ -313,7 +313,7 @@ async def mix_emoji(self, emoji1: str, emoji2: str) -> Union[str, bytes]:
 
 [handler.py] handle_emojimix:
   isinstance(result, bytes) → True
-  await matcher.finish(MessageSegment.image(result))  # 发送图片
+  await UniMessage.image(raw=result).finish()  # 跨平台发送图片
 ```
 
 ---
@@ -332,5 +332,6 @@ async def mix_emoji(self, emoji1: str, emoji2: str) -> Union[str, bytes]:
 3. **基础码点映射**: 统一处理带/不带 FE0F 的 emoji 变体
 4. **双向组合查找**: SQL 查询同时尝试两种排列，对用户透明
 5. **代理支持**: 使用标准环境变量 `HTTP_PROXY` 配置代理（httpx 自动支持，无需专用配置项）
-6. **OneBot V11 原生**: 直接使用 `MessageSegment.image()` 而非 alconna 的 `UniMessage`
-7. **emoji 库角色**: 仅作为"字符数据源"提供 emoji 字符形式，不使用其正则功能（2.0+ 已移除）
+6. **UniMessage 跨平台消息**: 使用 `nonebot-plugin-alconna` 的 `UniMessage.image()` 发送图片，自动适配各平台
+7. **保留 on_message + Rule**: emoji 匹配不是传统命令，不使用 `on_alconna`，保持高效正则短路逻辑
+8. **emoji 库角色**: 仅作为"字符数据源"提供 emoji 字符形式，不使用其正则功能（2.0+ 已移除）

@@ -4,11 +4,12 @@ import re
 
 from cachetools import TTLCache
 from nonebot import on_message
-from nonebot.adapters.onebot.v11 import MessageEvent, MessageSegment
+from nonebot.adapters import Event
 from nonebot.matcher import Matcher
 from nonebot.params import EventPlainText
 from nonebot.rule import Rule
 from nonebot.typing import T_State
+from nonebot_plugin_alconna import UniMessage
 
 from .config import plugin_config
 from .service import (
@@ -29,7 +30,7 @@ _cooldown_cache: TTLCache[str, bool] | None = (
 # Rule 函数
 
 
-async def _check_cooldown(event: MessageEvent) -> bool:
+async def _check_cooldown(event: Event) -> bool:
     """冷却检查：用户是否在冷却中（只读，不设置冷却）。"""
     if _cooldown_cache is None:
         return True
@@ -75,29 +76,29 @@ auto_emojimix_matcher = on_message(
 
 
 @emojimix.handle()
-async def handle_emojimix(event: MessageEvent, state: T_State, matcher: Matcher):
+async def handle_emojimix(event: Event, state: T_State, matcher: Matcher):
     """处理显式 emoji 合成请求 (emoji1+emoji2)"""
     if _cooldown_cache is not None:
         _cooldown_cache[event.get_user_id()] = True
     try:
         result = await emoji_mix_service.mix_emoji(state["code1"], state["code2"])
-        await matcher.finish(MessageSegment.image(result))
+        await UniMessage.image(raw=result).finish()
     except UnsupportedEmojiError as e:
-        await matcher.finish(f"不支持的emoji：{e.emoji}")
+        await UniMessage.text(f"不支持的emoji：{e.emoji}").finish()
     except ComboNotFoundError:
-        await matcher.finish("不支持该emoji组合")
+        await UniMessage.text("不支持该emoji组合").finish()
     except DownloadError:
-        await matcher.finish("下载表情出错")
+        await UniMessage.text("下载表情出错").finish()
 
 
 @auto_emojimix_matcher.handle()
-async def handle_auto_emojimix(event: MessageEvent, state: T_State, matcher: Matcher):
+async def handle_auto_emojimix(event: Event, state: T_State, matcher: Matcher):
     """处理自动 emoji 合成（检测相邻 emoji 对）"""
     if _cooldown_cache is not None:
         _cooldown_cache[event.get_user_id()] = True
     try:
         result = await emoji_mix_service.mix_emoji(state["code1"], state["code2"])
-        await matcher.finish(MessageSegment.image(result))
+        await UniMessage.image(raw=result).send()
     except (UnsupportedEmojiError, ComboNotFoundError, DownloadError):
         # 自动模式下，合成失败时静默忽略
         pass

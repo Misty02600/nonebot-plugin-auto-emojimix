@@ -3,11 +3,17 @@
 ## 技术栈
 - **Python**: 3.11+
 - **框架**: NoneBot2 (>=2.4.2)
-- **适配器**: OneBot V11 (nonebot-adapter-onebot >=2.4.6)
-- **消息处理**: OneBot V11 原生 `MessageSegment`
+- **消息层**: nonebot-plugin-alconna (>=0.59.0) — 提供 `UniMessage` 跨平台消息发送
 - **HTTP 客户端**: httpx (>=0.27.0)
 - **emoji 库**: emoji (>=2.0.0) — 提供 `emoji.EMOJI_DATA` 字典，包含所有 Unicode emoji 字符数据
 - **数据存储**: sqlite3 (标准库) — 只读查询，零额外依赖
+- **冷却限制**: cachetools (>=5.0.0) — TTLCache 实现用户级冷却
+
+## 关键架构决策：Alconna 的使用方式
+- **不使用 `on_alconna`**: 本插件的 emoji 匹配不是传统命令（无前缀、子命令、选项），保留 `on_message + Rule` 正则匹配
+- **仅使用 `UniMessage`**: 通过 `nonebot-plugin-alconna` 的通用消息组件实现跨平台消息发送
+- **不限制适配器**: `supported_adapters=None`，由 UniMessage 自动适配各平台
+- **require 机制**: 通过 `nonebot.require("nonebot_plugin_alconna")` 确保插件加载顺序
 
 ## 开发工具
 - **包管理器**: uv
@@ -22,9 +28,9 @@
 ```
 nonebot-plugin-auto-emojimix/
 ├── src/nonebot_plugin_auto_emojimix/
-│   ├── __init__.py                 # 插件入口（元数据 + handler 导入）
-│   ├── config.py                   # 配置模型（auto_emojimix）
-│   ├── handler.py                  # 消息匹配 + 处理函数
+│   ├── __init__.py                 # 插件入口（require + 元数据 + handler 导入）
+│   ├── config.py                   # 配置模型（emojimix_explicit, emojimix_auto, emojimix_cd）
+│   ├── handler.py                  # 消息匹配 + 处理函数（UniMessage 发送）
 │   ├── service.py                  # 核心业务逻辑（EmojiMixService + sqlite3）
 │   └── emojimix.db                 # emoji 组合数据库（SQLite, 7.55MB, 14 万组合）
 ├── scripts/                        # 开发辅助脚本（不随包发布）
@@ -44,15 +50,16 @@ nonebot-plugin-auto-emojimix/
 ```
 
 ## 关键依赖
-| 依赖                   | 版本                | 用途             |
-| ---------------------- | ------------------- | ---------------- |
-| nonebot2               | >=2.4.2,<3          | 机器人框架       |
-| nonebot-adapter-onebot | >=2.4.6,<3          | OneBot 适配器    |
-| httpx                  | >=0.27.0,<1         | HTTP 异步客户端  |
-| emoji                  | >=2.0.0             | emoji 字符数据库 |
-| sqlite3                | 标准库              | 组合数据查询     |
-| nonebug                | >=0.4.3 (test)      | NoneBot 测试工具 |
-| pytest-asyncio         | >=1.3.0,<1.4 (test) | 异步测试支持     |
+| 依赖                   | 版本                | 用途                  |
+| ---------------------- | ------------------- | --------------------- |
+| nonebot2               | >=2.4.2,<3          | 机器人框架            |
+| nonebot-plugin-alconna | >=0.59.0            | UniMessage 跨平台消息 |
+| httpx                  | >=0.27.0,<1         | HTTP 异步客户端       |
+| emoji                  | >=2.0.0             | emoji 字符数据库      |
+| cachetools             | >=5.0.0,<6          | TTLCache 用户冷却     |
+| sqlite3                | 标准库              | 组合数据查询          |
+| nonebug                | >=0.4.3 (test)      | NoneBot 测试工具      |
+| pytest-asyncio         | >=1.3.0,<1.4 (test) | 异步测试支持          |
 
 ## 测试架构
 采用与 peek / jmdownloader 一致的双层测试模式：

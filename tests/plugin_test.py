@@ -19,7 +19,7 @@ async def test_plugin_metadata(app: App):
     )
     assert __plugin_meta__.type == "application"
     assert __plugin_meta__.supported_adapters is not None
-    assert "~onebot.v11" in __plugin_meta__.supported_adapters
+    assert len(__plugin_meta__.supported_adapters) > 0
 
 
 @pytest.mark.asyncio

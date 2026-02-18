@@ -5,7 +5,7 @@
 ## ✨ nonebot-plugin-auto-emojimix ✨
 [![LICENSE](https://img.shields.io/github/license/Misty02600/nonebot-plugin-auto-emojimix.svg)](./LICENSE)
 [![python](https://img.shields.io/badge/python-3.11+-blue.svg?logo=python&logoColor=white)](https://www.python.org)
-[![Adapters](https://img.shields.io/badge/Adapters-OneBot%20v11-blue)](#supported-adapters)
+[![Adapters](https://img.shields.io/badge/Adapters-Alconna-blue)](#supported-adapters)
 <br/>
 
 [![uv](https://img.shields.io/badge/package%20manager-uv-black?logo=uv)](https://github.com/astral-sh/uv)

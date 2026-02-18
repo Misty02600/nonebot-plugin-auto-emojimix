@@ -4,7 +4,10 @@ nonebot-plugin-auto-emojimix
 将两个emoji合成为一张图片
 """
 
-from nonebot.plugin import PluginMetadata
+from nonebot import require
+from nonebot.plugin import PluginMetadata, inherit_supported_adapters
+
+require("nonebot_plugin_alconna")
 
 from . import handler as handler
 from .config import Config
@@ -16,5 +19,5 @@ __plugin_meta__ = PluginMetadata(
     type="application",
     homepage="https://github.com/Misty02600/nonebot-plugin-auto-emojimix",
     config=Config,
-    supported_adapters={"~onebot.v11"},
+    supported_adapters=inherit_supported_adapters("nonebot_plugin_alconna"),
 )
