@@ -10,7 +10,7 @@ run:
 
 # 运行测试
 test:
-    uv run pytest -n auto
+    uv run pytest
 
 # 版本发布（更新版本号、更新 lock 文件）
 bump:

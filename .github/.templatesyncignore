@@ -5,6 +5,9 @@
 :!.gitignore
 :!cliff.toml
 
+# 项目本地指令，不参与模板同步
+.github/instructions/**
+
 # 其余全部不同步
 *
 .github/workflows/initialize.yml
